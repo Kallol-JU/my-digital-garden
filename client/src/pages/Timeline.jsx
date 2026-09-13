@@ -54,7 +54,8 @@ export default function Timeline() {
                         <p className="text-gray-400 text-sm pl-8">No events logged for {selectedYear}.</p>
                     ) : (
                         filteredEvents.map((event) => {
-                            const formattedDate = new Date(event.date).toLocaleDateString('en-US', { month: 'short', numeric: 'numeric' }).replace(',', '');
+                            // Fixed: Changed 'numeric: 'numeric'' to 'day: 'numeric''
+                            const formattedDate = new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).replace(',', '');
 
                             return (
                                 <div key={event._id} className="relative pl-8 group">

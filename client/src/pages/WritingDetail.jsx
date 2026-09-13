@@ -41,7 +41,7 @@ export default function WritingDetail() {
                 <p className="text-gray-600 mb-4">{post.description}</p>
             )}
 
-            {/* Heart / Like Button */}
+
             <div className="mb-12">
                 <button
                     onClick={handleLike}
@@ -52,8 +52,8 @@ export default function WritingDetail() {
                 </button>
             </div>
 
-            {/* Markdown Content */}
-            <article className="prose prose-emerald prose-gray max-w-none text-gray-800">
+
+            <article className="prose prose-gray max-w-none text-gray-800 space-y-6 leading-relaxed [&>p]:mb-6 [&>blockquote]:border-l-2 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600">
                 <ReactMarkdown>{post.content}</ReactMarkdown>
             </article>
 

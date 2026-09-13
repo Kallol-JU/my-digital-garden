@@ -60,7 +60,16 @@ router.get('/projects/:slug', async (req, res) => {
     try {
         const project = await Project.findOne({ slug: req.params.slug });
         if (!project) return res.status(404).json({ message: 'Project not found' });
-        res.json(project);
+
+        const prevProject = await Project.findOne({ createdAt: { $lt: project.createdAt } })
+            .sort({ createdAt: -1 })
+            .select('title slug');
+
+        const nextProject = await Project.findOne({ createdAt: { $gt: project.createdAt } })
+            .sort({ createdAt: 1 })
+            .select('title slug');
+
+        res.json({ project, prevProject, nextProject });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
