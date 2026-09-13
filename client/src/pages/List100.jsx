@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function List100() {
     const [goals, setGoals] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -8,7 +10,7 @@ export default function List100() {
     useEffect(() => {
         const fetchGoals = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8080/api/list100');
+                const response = await axios.get(`${API_URL}/list100`);
                 setGoals(response.data);
             } catch (error) {
                 console.error('Error fetching list 100:', error);
@@ -49,7 +51,7 @@ export default function List100() {
                         </div>
                     </div>
 
-                    {/* List Items */}
+
                     <ul className="space-y-6">
                         {goals.map((goal) => (
                             <li key={goal._id} className="flex gap-2">

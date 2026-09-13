@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function Admin() {
     const [goals, setGoals] = useState([]);
     const [newGoal, setNewGoal] = useState('');
@@ -20,44 +22,37 @@ export default function Admin() {
         fetchGoals();
         fetchTimeline();
         fetchWritings();
-    }, []);
-
-    useEffect(() => {
-        fetchGoals();
-        fetchTimeline();
-        fetchWritings();
         fetchProjects();
     }, []);
 
     const fetchGoals = async () => {
-        const response = await axios.get('http://127.0.0.1:8080/api/list100');
+        const response = await axios.get(`${API_URL}/list100`);
         setGoals(response.data);
     };
 
     const fetchTimeline = async () => {
-        const response = await axios.get('http://127.0.0.1:8080/api/timeline');
+        const response = await axios.get(`${API_URL}/timeline`);
         setTimelineEvents(response.data);
     };
 
     const fetchWritings = async () => {
-        const response = await axios.get('http://127.0.0.1:8080/api/writings');
+        const response = await axios.get(`${API_URL}/writings`);
         setWritings(response.data);
     };
 
     const fetchProjects = async () => {
-        const response = await axios.get('http://127.0.0.1:8080/api/projects');
+        const response = await axios.get(`${API_URL}/projects`);
         setProjects(response.data);
     };
 
     const submitProject = async (e) => {
         e.preventDefault();
         try {
-
             const formattedTags = typeof projectForm.techStack === 'string'
                 ? projectForm.techStack.split(',').map(s => s.trim().toLowerCase())
                 : projectForm.techStack;
 
-            await axios.post('http://127.0.0.1:8080/api/projects', {
+            await axios.post(`${API_URL}/projects`, {
                 ...projectForm,
                 techStack: formattedTags
             });
@@ -72,7 +67,7 @@ export default function Admin() {
 
     const deleteProject = async (slug) => {
         if (window.confirm('Are you sure you want to delete this project?')) {
-            await axios.delete(`http://127.0.0.1:8080/api/projects/${slug}`);
+            await axios.delete(`${API_URL}/projects/${slug}`);
             fetchProjects();
         }
     };
@@ -81,19 +76,19 @@ export default function Admin() {
     const addGoal = async (e) => {
         e.preventDefault();
         if (!newGoal.trim()) return;
-        await axios.post('http://127.0.0.1:8080/api/list100', { text: newGoal });
+        await axios.post(`${API_URL}/list100`, { text: newGoal });
         setNewGoal('');
         fetchGoals();
     };
 
     const toggleGoal = async (id) => {
-        await axios.put(`http://127.0.0.1:8080/api/list100/${id}`);
+        await axios.put(`${API_URL}/list100/${id}`);
         fetchGoals();
     };
 
     const deleteGoal = async (id) => {
         if (window.confirm('Delete this goal?')) {
-            await axios.delete(`http://127.0.0.1:8080/api/list100/${id}`);
+            await axios.delete(`${API_URL}/list100/${id}`);
             fetchGoals();
         }
     };
@@ -102,7 +97,7 @@ export default function Admin() {
     const submitBlog = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://127.0.0.1:8080/api/writings', blogForm);
+            await axios.post(`${API_URL}/writings`, blogForm);
             setStatus('✅ Note published successfully!');
             setBlogForm({ title: '', slug: '', description: '', content: '' });
             fetchWritings();
@@ -113,7 +108,7 @@ export default function Admin() {
 
     const deleteWriting = async (slug) => {
         if (window.confirm('Are you sure you want to delete this writing?')) {
-            await axios.delete(`http://127.0.0.1:8080/api/writings/${slug}`);
+            await axios.delete(`${API_URL}/writings/${slug}`);
             fetchWritings();
         }
     };
@@ -122,7 +117,7 @@ export default function Admin() {
     const submitTimeline = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://127.0.0.1:8080/api/timeline', timelineForm);
+            await axios.post(`${API_URL}/timeline`, timelineForm);
             setTimelineForm({ title: '', date: '', description: '', link: '' });
             fetchTimeline();
         } catch (error) {
@@ -132,7 +127,7 @@ export default function Admin() {
 
     const deleteTimeline = async (id) => {
         if (window.confirm('Delete this milestone?')) {
-            await axios.delete(`http://127.0.0.1:8080/api/timeline/${id}`);
+            await axios.delete(`${API_URL}/timeline/${id}`);
             fetchTimeline();
         }
     };

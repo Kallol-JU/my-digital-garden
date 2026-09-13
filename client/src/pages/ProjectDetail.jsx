@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function ProjectDetail() {
     const { slug } = useParams();
     const [project, setProject] = useState(null);
@@ -14,7 +16,7 @@ export default function ProjectDetail() {
         const fetchProject = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://127.0.0.1:8080/api/projects/${slug}`);
+                const response = await axios.get(`${API_URL}/projects/${slug}`);
                 // Matches the backend structure returning { project, prevProject, nextProject }
                 setProject(response.data.project);
                 setPrevProject(response.data.prevProject);

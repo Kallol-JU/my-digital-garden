@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function WritingDetail() {
     const { slug } = useParams();
     const [post, setPost] = useState(null);
@@ -11,7 +13,7 @@ export default function WritingDetail() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8080/api/writings/${slug}`);
+                const response = await axios.get(`${API_URL}/writings/${slug}`);
                 setPost(response.data);
             } catch (error) {
                 console.error('Error fetching post:', error);
@@ -24,7 +26,7 @@ export default function WritingDetail() {
 
     const handleLike = async () => {
         try {
-            const response = await axios.put(`http://127.0.0.1:8080/api/writings/${slug}/like`);
+            const response = await axios.put(`${API_URL}/writings/${slug}/like`);
             setPost(response.data);
         } catch (error) {
             console.error('Error liking post:', error);
@@ -41,7 +43,6 @@ export default function WritingDetail() {
                 <p className="text-gray-600 mb-4">{post.description}</p>
             )}
 
-
             <div className="mb-12">
                 <button
                     onClick={handleLike}
@@ -51,7 +52,6 @@ export default function WritingDetail() {
                     <span>{post.likes || 0}</span>
                 </button>
             </div>
-
 
             <article className="prose prose-gray max-w-none text-gray-800 space-y-6 leading-relaxed [&>p]:mb-6 [&>blockquote]:border-l-2 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600">
                 <ReactMarkdown>{post.content}</ReactMarkdown>

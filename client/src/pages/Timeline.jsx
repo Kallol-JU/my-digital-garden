@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function Timeline() {
     const [events, setEvents] = useState([]);
     const [selectedYear, setSelectedYear] = useState('2026');
@@ -9,7 +11,7 @@ export default function Timeline() {
     useEffect(() => {
         const fetchTimeline = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8080/api/timeline');
+                const response = await axios.get(`${API_URL}/timeline`);
                 setEvents(response.data);
             } catch (error) {
                 console.error('Error fetching timeline:', error);
@@ -54,7 +56,6 @@ export default function Timeline() {
                         <p className="text-gray-400 text-sm pl-8">No events logged for {selectedYear}.</p>
                     ) : (
                         filteredEvents.map((event) => {
-                            // Fixed: Changed 'numeric: 'numeric'' to 'day: 'numeric''
                             const formattedDate = new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).replace(',', '');
 
                             return (

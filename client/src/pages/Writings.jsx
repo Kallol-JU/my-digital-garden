@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api';
+
 export default function Writings() {
     const [groupedPosts, setGroupedPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ export default function Writings() {
     useEffect(() => {
         const fetchWritings = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8080/api/writings');
+                const response = await axios.get(`${API_URL}/writings`);
 
                 // Group posts by Month and Year (e.g., "MAY 26")
                 const groups = {};
@@ -44,7 +46,7 @@ export default function Writings() {
         fetchWritings();
     }, []);
 
-    // Flatten all items for pagination matching the screenshot layout
+    // Flatten all items for pagination matching the layout
     const allPosts = groupedPosts.flatMap(g => g.items);
     const totalPages = Math.ceil(allPosts.length / postsPerPage) || 1;
 
