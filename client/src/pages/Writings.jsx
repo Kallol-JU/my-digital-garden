@@ -89,8 +89,13 @@ export default function Writings() {
                                             {post.title}
                                         </Link>
                                         {post.description && (
-                                            <p className="text-gray-500 text-sm">{post.description}</p>
+                                            <p className="text-gray-500 text-sm mb-1">{post.description}</p>
                                         )}
+                                        {/* Safely render the array length to avoid crashes */}
+                                        <div className="text-xs text-gray-400 flex items-center gap-1">
+                                            <span>♥</span>
+                                            <span>{post.likes?.length || 0}</span>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
