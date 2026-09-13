@@ -7,10 +7,10 @@ export default function Home() {
 
             <div className="space-y-4 text-[15px] text-gray-500 leading-relaxed mb-16">
                 <p>
-                    Notes, projects, and loose thoughts from my time as a 3rd-year CSE student, my work exploring the MERN stack, and things I build on my own.
+                    Notes, projects, and loose thoughts from my time as a final year CSE student, my work exploring the MERN stack, and things I build on my own.
                 </p>
                 <p>
-                    Mostly full-stack web development, machine learning, and WebSockets.
+                    Mostly full-stack web development, machine learning, and ai.
                 </p>
             </div>
 
