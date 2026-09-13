@@ -10,6 +10,8 @@ import List100 from './pages/List100';
 import Admin from './pages/Admin';
 
 function App() {
+  const adminRoute = import.meta.env.VITE_ADMIN_ROUTE || 'kallol-admin';
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -19,8 +21,8 @@ function App() {
         <Route path="timeline" element={<Timeline />} />
         <Route path="writings" element={<Writings />} />
         <Route path="writings/:slug" element={<WritingDetail />} />
-        <Route path="/list100" element={<List100 />} />
-        <Route path="/kallol-admin" element={<Admin />} />
+        <Route path="list100" element={<List100 />} />
+        <Route path={adminRoute} element={<Admin />} />
       </Route>
     </Routes>
   );
