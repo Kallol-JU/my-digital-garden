@@ -13,16 +13,18 @@ export default function Layout() {
 
     return (
         <div className="min-h-screen text-gray-900 font-sans">
-
-            <div className="max-w-[720px] mx-auto px-5 pt-12 pb-20 flex flex-col">
+            {/* Reduced top padding slightly on mobile with pt-8 md:pt-12 */}
+            <div className="max-w-[720px] mx-auto px-5 pt-8 md:pt-12 pb-20 flex flex-col">
 
                 {!isHome && (
-                    <nav className="flex justify-between items-center w-full pb-16 text-[15px]">
+                    /* Stacked flex-col on mobile, row on sm screens. Added gap-5 for spacing when stacked */
+                    <nav className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-5 pb-12 md:pb-16 text-[15px]">
                         <Link to="/" className="font-bold text-gray-900 hover:text-gray-600 transition-colors">
                             Kallol's Garden 🌱
                         </Link>
 
-                        <div className="flex gap-5 md:gap-7">
+                        {/* Added flex-wrap so links wrap to a new line on tiny screens like iPhone SE */}
+                        <div className="flex flex-wrap gap-4 sm:gap-5 md:gap-7">
                             <Link to="/projects" className={getNavLinkClass('/projects')}>projects</Link>
                             <Link to="/writings" className={getNavLinkClass('/writings')}>writings</Link>
                             <Link to="/timeline" className={getNavLinkClass('/timeline')}>timeline</Link>
