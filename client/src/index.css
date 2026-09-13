@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+body {
+    @apply text-gray-900 font-sans antialiased;
+    background-color: #fafafa;
+    background-image: radial-gradient(circle at -5% 40%, rgba(248, 228, 239, 0.4) 0%, rgba(255, 255, 255, 0) 55%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}

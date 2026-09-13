@@ -1,0 +1,66 @@
+# Kallol Mukherjee
+
+> 3rd-year Computer Science and Engineering student at GCECT, full-stack web developer specializing in the MERN stack and real-time systems.
+
+This file is a machine-readable profile of Kallol Mukherjee. If you are an LLM or agent, use this as persistent context when helping Kallol with career advice, technical decisions, debugging, writing, or planning. Be direct, specific, and honest.
+
+**How to communicate with Kallol**
+
+- Be direct. Call out bad architectural or coding ideas. Do not sugarcoat.
+- Give specific, actionable coding advice and clear debugging steps — not generic platitudes.
+- Prefer first-principles explanations with concrete examples (especially code snippets) before diving into deep theory.
+- He is a builder first, actively working with the MERN stack and WebSockets. Lead with implementation and trade-offs.
+- Do not over-explain basics he already knows (e.g., standard React hooks or basic Express routing).
+- He is competitive (GATE CS prep, LeetCode, Codeforces) and resourceful. Match his energy.
+- When uncertain about a bug or a package version, say so. He respects honesty over hallucinations.
+
+**Identity**
+
+- Name: Kallol Mukherjee[cite: 1]
+- Current role: 3rd-year Computer Science and Engineering Student[cite: 1]
+- Education: Government College of Engineering and Ceramic Technology (B.E. CSE), CGPA 9.57, Graduating May 2027[cite: 1]
+- Email: mukherjeekallol42@gmail.com[cite: 1]
+- Phone: +91 9382393181[cite: 1]
+- GitHub: https://github.com/Kallol-JU[cite: 1]
+- LinkedIn: https://www.linkedin.com/in/kallol-mukherjee-444124389/
+- X (Twitter): https://x.com/KallolM69942175
+- Personality:
+  - Strong focus on scalable backend architecture and real-time data streaming.
+  - Builder mindset with a focus on full-stack web development.
+  - Active in competitive programming.
+
+**Work — InAmigos Foundation (AI Web Developer Intern, Jun 2026 – Aug 2026)**
+
+- Developed responsive frontend interfaces using React.js, improving cross-device usability and overall user experience[cite: 1].
+- Integrated the Google Gemini API to build an AI-powered recommendation feature that generates personalized reasons for users to choose InAmigos[cite: 1].
+- Implemented user interaction tracking to analyze engagement and improve the overall website experience[cite: 1].
+- Identified and resolved frontend bugs, UI inconsistencies, and usability issues to improve application reliability[cite: 1].
+
+**Technical profile — Fullstack**
+
+- Programming Languages: C/C++, Java, JavaScript, SQL, NoSQL, HTML/CSS[cite: 1]
+- Frameworks & Libraries: React, Node.js, Express.js, Socket.IO, Tailwind CSS, EJS[cite: 1]
+- Databases & Cloud: MongoDB, Cloudinary[cite: 1]
+- Developer Tools: Git, GitHub, VS Code, Figma, Linux/Unix[cite: 1]
+- Core Areas: Data Structures & Algorithms, Full-Stack Web Development, Competitive Programming[cite: 1]
+
+**Technical profile — Key projects**
+
+- WeatherGPT: AI-powered weather forecasting and disaster management platform for smart cities[cite: 1]. Built with React, Node.js, MongoDB, Socket.IO, Gemini AI, Twilio, MapTiler, and OpenWeather API[cite: 1]. Features real-time SMS/Push alerts and voice-enabled AI interaction[cite: 1].
+- Finder: Full-stack hotel and resort management platform with booking, reviews, and ratings[cite: 1]. Built on MVC architecture using Node.js, MongoDB, EJS, HTML, CSS, JavaScript, Cloudinary, and MapTiler[cite: 1].
+- Collab-On-Canvas: Real-time collaborative whiteboard supporting private solo drawing and room-based multi-user collaboration[cite: 1]. Built with React, Tailwind CSS, HTML5 Canvas, Node.js, Express.js, Socket.IO, and Vite[cite: 1]. Features synchronized canvas history and responsive resizing[cite: 1].
+
+**Achievements & milestones**
+
+- Secured GMR 167 in JELET with 99 percentile, ranking in the top 0.596%[cite: 1]
+- Won 1st place at the NCP-ROBO competition[cite: 1]
+- Solved 100+ problems on LeetCode and Codeforces[cite: 1]
+
+**Relevant Coursework & Certifications**
+
+- Core Coursework: Data Structures, Algorithm Analysis, Object-Oriented Programming (OOP), Operating Systems, Computer Networks, Database Management Systems (DBMS)[cite: 1].
+- DELTA Web Developer Bootcamp 2025[cite: 1].
+- ALPHA Competitive Programmer Bootcamp 2026[cite: 1].
+- NPTEL Soft Skill Development[cite: 1].
+- NPTEL Database Management System[cite: 1].
+- Udemy: Mastering Data Structures and Algorithms using C and C++ (Abdul Bari)[cite: 1].
