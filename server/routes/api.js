@@ -113,15 +113,39 @@ router.put('/list100/:id', async (req, res) => {
     }
 });
 
+// UPDATED: One Like Per Person Logic
 router.put('/writings/:slug/like', async (req, res) => {
     try {
-        const post = await Blog.findOneAndUpdate(
+        // Because you do not have an auth middleware in this file, 
+        // the frontend MUST send a unique 'userId' in the request body.
+        const { userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required to like a post.' });
+        }
+
+        const post = await Blog.findOne({ slug: req.params.slug });
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+
+        // Check if this specific user already liked the post
+        const hasLiked = post.likes.includes(userId);
+
+        // Toggle logic
+        const updateQuery = hasLiked 
+            ? { $pull: { likes: userId } }      // Remove them
+            : { $addToSet: { likes: userId } }; // Add them securely
+
+        const updatedPost = await Blog.findOneAndUpdate(
             { slug: req.params.slug },
-            { $inc: { likes: 1 } },
+            updateQuery,
             { new: true }
         );
-        if (!post) return res.status(404).json({ message: 'Post not found' });
-        res.json(post);
+
+        res.json({
+            success: true,
+            hasLiked: !hasLiked,
+            likesCount: updatedPost.likes.length
+        });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -129,7 +153,6 @@ router.put('/writings/:slug/like', async (req, res) => {
 
 router.post('/projects', async (req, res) => {
     try {
-        // Convert comma-separated techStack string into an array if needed
         const data = {
             ...req.body,
             techStack: typeof req.body.techStack === 'string'
