@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema({
     description: { type: String },
     content: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    likes: { type: Number, default: 0 }
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('Blog', blogSchema);
