@@ -8,7 +8,7 @@ import Writings from "./pages/Writings";
 import WritingDetail from "./pages/WritingDetail";
 import List100 from "./pages/List100";
 import Admin from "./pages/Admin";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const adminRoute = import.meta.env.VITE_ADMIN_ROUTE || "kallol-admin";
