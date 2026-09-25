@@ -114,7 +114,7 @@ router.post("/chat", async (req, res) => {
     Conversational, professional, concise, and slightly witty.`;
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.5-flash",
+      model: "gemini-3.5-flash-lite",
       systemInstruction: systemInstruction,
     });
 
