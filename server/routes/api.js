@@ -4,19 +4,20 @@ const Project = require("../models/Project");
 const Blog = require("../models/Blog");
 const Timeline = require("../models/Timeline");
 const Goal = require("../models/Goal");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { Groq } = require("groq-sdk");
 
 console.log(
-  "My API Key starts with:",
-  process.env.GEMINI_API_KEY
-    ? process.env.GEMINI_API_KEY.substring(0, 5)
+  "My Groq API Key starts with:",
+  process.env.GROQ_API_KEY
+    ? process.env.GROQ_API_KEY.substring(0, 5)
     : "UNDEFINED!",
 );
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
 // GET all projects
 router.get("/projects", async (req, res) => {
   try {
-    // Sort by newest first
     const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (err) {
@@ -89,12 +90,11 @@ router.get("/projects/:slug", async (req, res) => {
   }
 });
 
-//chat route
+// Chat route using Groq (Llama 3.3 Versatile) - lightning-fast & reliable
 router.post("/chat", async (req, res) => {
   try {
     const { message, history } = req.body;
 
-    // Prompt
     const systemInstruction = `You are Kallol's personal AI assistant for his portfolio website (Kallol's Garden). 
     Your sole purpose is to represent Kallol, discuss his skills, experience, projects, and explain why he is a great hire.
        
@@ -102,33 +102,47 @@ router.post("/chat", async (req, res) => {
     - Final-year Computer Science and Engineering (CSE) student at Government College Of Engineering And Ceramic Technology, kolkata.
     - Core Skills: Full-Stack Web Development, MERN stack (MongoDB, Express, React, Node.js), and Machine Learning.
     - GitHub: https://github.com/Kallol-JU 
-    - previous ai web developer intern at InAmigos Foundation, there he Developed responsive frontend interfaces using React.js, improving cross-device usability and overall user experience. Integrated the Google Gemini API to build an AI-powered recommendation feature that generates personalized reasons for users to choose InAmigos. Implemented user interaction tracking to analyze engagement and improve the overall website experience. Identified and resolved frontend bugs, UI inconsistencies, and usability issues to improve application reliability.
+    - Previous AI Web Developer Intern at InAmigos Foundation: Developed responsive frontend interfaces using React.js, improving cross-device usability and user experience. Integrated AI-powered recommendation features and tracked user engagement.
 
     STRICT GUARDRAILS (TOKEN SAVING):
-    If the user asks you to write code, solve math, write an essay, translate text, or answer general knowledge questions completely unrelated to Kallol, his tech stack, or his portfolio, or why you should hire him or what can he offer, you MUST immediately decline. 
+    If the user asks you to write code, solve math, write an essay, translate text, or answer general knowledge questions completely unrelated to Kallol, his tech stack, or his portfolio, you MUST immediately decline. 
 
     Use a polite but firm generic response exactly like this: "I am Kallol's portfolio assistant, so this isn't my job! I'm only here to answer questions about his experience, projects, or background." 
-    Do not attempt to fulfill the outside request, apologize excessively, or provide follow-up information.
+    Do not attempt to fulfill the outside request.
     
     TONE:
     Conversational, professional, concise, and slightly witty.`;
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-3.5-flash-lite",
-      systemInstruction: systemInstruction,
+    // Map conversation history into Groq's message schema format
+    const formattedMessages = [
+      { role: "system", content: systemInstruction },
+      ...(Array.isArray(history)
+        ? history.map((h) => ({
+            role: h.role === "user" ? "user" : "assistant",
+            content: h.parts?.[0]?.text || h.content || "",
+          }))
+        : []),
+      { role: "user", content: message },
+    ];
+
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: formattedMessages,
+      temperature: 0.7,
+      max_tokens: 500,
     });
 
-    const chat = model.startChat({
-      history: history || [],
-    });
-
-    const result = await chat.sendMessage(message);
-    const responseText = result.response.text();
+    const responseText =
+      completion.choices[0]?.message?.content ||
+      "I couldn't generate a response.";
 
     res.json({ reply: responseText });
   } catch (error) {
-    console.error("Gemini API Error:", error);
-    res.status(500).json({ error: "Failed to generate response" });
+    console.error("Groq API Error:", error);
+    res.status(503).json({
+      reply:
+        "My AI assistant is taking a quick break! Please try asking again in a moment.",
+    });
   }
 });
 
@@ -170,7 +184,6 @@ router.put("/list100/:id", async (req, res) => {
   }
 });
 
-// UPDATED: One Like Per Person Logic
 router.put("/writings/:slug/like", async (req, res) => {
   try {
     const { userId } = req.body;
@@ -184,10 +197,7 @@ router.put("/writings/:slug/like", async (req, res) => {
     const post = await Blog.findOne({ slug: req.params.slug });
     if (!post) return res.status(404).json({ message: "Post not found" });
 
-    // Check if this specific user already liked the post
     const hasLiked = post.likes.includes(userId);
-
-    // Toggle logic
     const updateQuery = hasLiked
       ? { $pull: { likes: userId } }
       : { $addToSet: { likes: userId } };
@@ -224,7 +234,6 @@ router.post("/projects", async (req, res) => {
   }
 });
 
-// DELETE a project by slug
 router.delete("/projects/:slug", async (req, res) => {
   try {
     await Project.findOneAndDelete({ slug: req.params.slug });
