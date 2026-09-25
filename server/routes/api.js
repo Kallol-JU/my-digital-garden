@@ -4,16 +4,10 @@ const Project = require("../models/Project");
 const Blog = require("../models/Blog");
 const Timeline = require("../models/Timeline");
 const Goal = require("../models/Goal");
-const { Groq } = require("groq-sdk");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-console.log(
-  "My Groq API Key starts with:",
-  process.env.GROQ_API_KEY
-    ? process.env.GROQ_API_KEY.substring(0, 5)
-    : "UNDEFINED!",
-);
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const geminiApiKey = process.env.GEMINI_API_KEY?.trim();
+const genAI = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 
 // GET all projects
 router.get("/projects", async (req, res) => {
@@ -90,9 +84,16 @@ router.get("/projects/:slug", async (req, res) => {
   }
 });
 
-// Chat route using Groq (Llama 3.3 Versatile)
+// Chat route using Gemini (Google Generative AI)
 router.post("/chat", async (req, res) => {
   try {
+    if (!genAI) {
+      return res.status(503).json({
+        reply:
+          "The AI assistant is not configured yet. Please try again later.",
+      });
+    }
+
     const { message, history } = req.body;
 
     const systemInstruction = `You are Kallol's personal AI assistant for his portfolio website (Kallol's Garden). 
@@ -113,31 +114,29 @@ router.post("/chat", async (req, res) => {
     TONE:
     Conversational, professional, concise, and slightly witty.`;
 
-    const formattedMessages = [
-      { role: "system", content: systemInstruction },
-      ...(Array.isArray(history)
-        ? history.map((h) => ({
-            role: h.role === "user" ? "user" : "assistant",
-            content: h.parts?.[0]?.text || h.content || "",
-          }))
-        : []),
-      { role: "user", content: message },
-    ];
+    // Map history to Gemini's expected format (role: user/model, parts: [{ text }])
+    const formattedHistory = Array.isArray(history)
+      ? history.map((h) => ({
+          role: h.role === "user" ? "user" : "model",
+          parts: [{ text: h.parts?.[0]?.text || h.content || h.text || "" }],
+        }))
+      : [];
 
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: formattedMessages,
-      temperature: 0.7,
-      max_tokens: 500,
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash",
+      systemInstruction: systemInstruction,
     });
 
-    const responseText =
-      completion.choices[0]?.message?.content ||
-      "I couldn't generate a response.";
+    const chat = model.startChat({
+      history: formattedHistory,
+    });
+
+    const result = await chat.sendMessage(message || "Hello");
+    const responseText = result.response.text();
 
     res.json({ reply: responseText });
   } catch (error) {
-    console.error("Groq API Error:", error);
+    console.error("Gemini API request failed:", error);
     res.status(503).json({
       reply:
         "My AI assistant is taking a quick break! Please try asking again in a moment.",
