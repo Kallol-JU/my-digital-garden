@@ -90,7 +90,7 @@ router.get("/projects/:slug", async (req, res) => {
   }
 });
 
-// Chat route using Groq (Llama 3.3 Versatile) - lightning-fast & reliable
+// Chat route using Groq (Llama 3.3 Versatile)
 router.post("/chat", async (req, res) => {
   try {
     const { message, history } = req.body;
@@ -104,7 +104,7 @@ router.post("/chat", async (req, res) => {
     - GitHub: https://github.com/Kallol-JU 
     - Previous AI Web Developer Intern at InAmigos Foundation: Developed responsive frontend interfaces using React.js, improving cross-device usability and user experience. Integrated AI-powered recommendation features and tracked user engagement.
 
-    STRICT GUARDRAILS (TOKEN SAVING):
+    STRICT GUARDRAILS:
     If the user asks you to write code, solve math, write an essay, translate text, or answer general knowledge questions completely unrelated to Kallol, his tech stack, or his portfolio, you MUST immediately decline. 
 
     Use a polite but firm generic response exactly like this: "I am Kallol's portfolio assistant, so this isn't my job! I'm only here to answer questions about his experience, projects, or background." 
@@ -113,7 +113,6 @@ router.post("/chat", async (req, res) => {
     TONE:
     Conversational, professional, concise, and slightly witty.`;
 
-    // Map conversation history into Groq's message schema format
     const formattedMessages = [
       { role: "system", content: systemInstruction },
       ...(Array.isArray(history)
