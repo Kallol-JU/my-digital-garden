@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import InteractiveSprout from "../components/InteractiveSprout";
 
 export default function Home() {
   return (
     <div className="animate-fade-in max-w-[650px] pt-12 pb-20">
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">
-        Kallol's Garden 🌱
+      <h1 className="text-3xl font-bold mb-6 text-gray-900 flex items-center">
+        Kallol's Garden
+        <InteractiveSprout size={44} />
       </h1>
 
       <div className="space-y-4 text-[15px] text-gray-500 leading-relaxed mb-16">
