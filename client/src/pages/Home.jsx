@@ -121,14 +121,9 @@ export default function Home() {
           this
         </a>{" "}
         and ask about me or read my resume{" "}
-        <a
-          href="/Kallol_resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:underline"
-        >
+        <Link to="/resume" className="text-blue-600 hover:underline">
           here
-        </a>
+        </Link>
         .
       </p>
     </div>

@@ -9,6 +9,7 @@ import WritingDetail from "./pages/WritingDetail";
 import List100 from "./pages/List100";
 import Admin from "./pages/Admin";
 import { Analytics } from "@vercel/analytics/react";
+import Resume from "./pages/Resume";
 
 function App() {
   const adminRoute = import.meta.env.VITE_ADMIN_ROUTE || "kallol-admin";
@@ -24,6 +25,7 @@ function App() {
           <Route path="writings" element={<Writings />} />
           <Route path="writings/:slug" element={<WritingDetail />} />
           <Route path="list100" element={<List100 />} />
+          <Route path="/resume" element={<Resume />} />
           <Route path={adminRoute} element={<Admin />} />
         </Route>
       </Routes>
